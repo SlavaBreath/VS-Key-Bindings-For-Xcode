@@ -11,7 +11,35 @@
 		F9C2ADC81D5B6FEC0033CDFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2ADC71D5B6FEC0033CDFC /* ViewController.swift */; };
 		F9C2ADCA1D5B6FEC0033CDFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9C2ADC91D5B6FEC0033CDFC /* Assets.xcassets */; };
 		F9C2ADCD1D5B6FEC0033CDFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9C2ADCB1D5B6FEC0033CDFC /* Main.storyboard */; };
+		F9C2ADDB1D5B70500033CDFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C2ADDA1D5B70500033CDFC /* Cocoa.framework */; };
+		F9C2ADE01D5B70500033CDFC /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2ADDF1D5B70500033CDFC /* SourceEditorExtension.swift */; };
+		F9C2ADE21D5B70500033CDFC /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2ADE11D5B70500033CDFC /* SourceEditorCommand.swift */; };
+		F9C2ADE61D5B70500033CDFC /* Visual Studio Hotkeys.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F9C2ADD81D5B70500033CDFC /* Visual Studio Hotkeys.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F9C2ADE41D5B70500033CDFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9C2ADBA1D5B6FEC0033CDFC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F9C2ADD71D5B70500033CDFC;
+			remoteInfo = "Visual Studio Hotkeys";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F9C2ADEA1D5B70500033CDFC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F9C2ADE61D5B70500033CDFC /* Visual Studio Hotkeys.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F9C2ADC21D5B6FEC0033CDFC /* VS Key Bindings For Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VS Key Bindings For Xcode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -20,6 +48,12 @@
 		F9C2ADC91D5B6FEC0033CDFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9C2ADCC1D5B6FEC0033CDFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F9C2ADCE1D5B6FEC0033CDFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F9C2ADD81D5B70500033CDFC /* Visual Studio Hotkeys.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Visual Studio Hotkeys.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9C2ADDA1D5B70500033CDFC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F9C2ADDE1D5B70500033CDFC /* Visual_Studio_Hotkeys.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Visual_Studio_Hotkeys.entitlements; sourceTree = "<group>"; };
+		F9C2ADDF1D5B70500033CDFC /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
+		F9C2ADE11D5B70500033CDFC /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
+		F9C2ADE31D5B70500033CDFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +64,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F9C2ADD51D5B70500033CDFC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9C2ADDB1D5B70500033CDFC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -37,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				F9C2ADC41D5B6FEC0033CDFC /* VS Key Bindings For Xcode */,
+				F9C2ADDC1D5B70500033CDFC /* Visual Studio Hotkeys */,
+				F9C2ADD91D5B70500033CDFC /* Frameworks */,
 				F9C2ADC31D5B6FEC0033CDFC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				F9C2ADC21D5B6FEC0033CDFC /* VS Key Bindings For Xcode.app */,
+				F9C2ADD81D5B70500033CDFC /* Visual Studio Hotkeys.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +106,33 @@
 			path = "VS Key Bindings For Xcode";
 			sourceTree = "<group>";
 		};
+		F9C2ADD91D5B70500033CDFC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2ADDA1D5B70500033CDFC /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F9C2ADDC1D5B70500033CDFC /* Visual Studio Hotkeys */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2ADDF1D5B70500033CDFC /* SourceEditorExtension.swift */,
+				F9C2ADE11D5B70500033CDFC /* SourceEditorCommand.swift */,
+				F9C2ADE31D5B70500033CDFC /* Info.plist */,
+				F9C2ADDD1D5B70500033CDFC /* Supporting Files */,
+			);
+			path = "Visual Studio Hotkeys";
+			sourceTree = "<group>";
+		};
+		F9C2ADDD1D5B70500033CDFC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2ADDE1D5B70500033CDFC /* Visual_Studio_Hotkeys.entitlements */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,15 +143,34 @@
 				F9C2ADBE1D5B6FEC0033CDFC /* Sources */,
 				F9C2ADBF1D5B6FEC0033CDFC /* Frameworks */,
 				F9C2ADC01D5B6FEC0033CDFC /* Resources */,
+				F9C2ADEA1D5B70500033CDFC /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F9C2ADE51D5B70500033CDFC /* PBXTargetDependency */,
 			);
 			name = "VS Key Bindings For Xcode";
 			productName = "VS Key Bindings For Xcode";
 			productReference = F9C2ADC21D5B6FEC0033CDFC /* VS Key Bindings For Xcode.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F9C2ADD71D5B70500033CDFC /* Visual Studio Hotkeys */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9C2ADE71D5B70500033CDFC /* Build configuration list for PBXNativeTarget "Visual Studio Hotkeys" */;
+			buildPhases = (
+				F9C2ADD41D5B70500033CDFC /* Sources */,
+				F9C2ADD51D5B70500033CDFC /* Frameworks */,
+				F9C2ADD61D5B70500033CDFC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Visual Studio Hotkeys";
+			productName = "Visual Studio Hotkeys";
+			productReference = F9C2ADD81D5B70500033CDFC /* Visual Studio Hotkeys.appex */;
+			productType = "com.apple.product-type.xcode-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -92,6 +183,11 @@
 				ORGANIZATIONNAME = "Vyacheslav Nagornyak";
 				TargetAttributes = {
 					F9C2ADC11D5B6FEC0033CDFC = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 7R7GVTFP58;
+						ProvisioningStyle = Automatic;
+					};
+					F9C2ADD71D5B70500033CDFC = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 7R7GVTFP58;
 						ProvisioningStyle = Automatic;
@@ -112,6 +208,7 @@
 			projectRoot = "";
 			targets = (
 				F9C2ADC11D5B6FEC0033CDFC /* VS Key Bindings For Xcode */,
+				F9C2ADD71D5B70500033CDFC /* Visual Studio Hotkeys */,
 			);
 		};
 /* End PBXProject section */
@@ -123,6 +220,13 @@
 			files = (
 				F9C2ADCA1D5B6FEC0033CDFC /* Assets.xcassets in Resources */,
 				F9C2ADCD1D5B6FEC0033CDFC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9C2ADD61D5B70500033CDFC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +242,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F9C2ADD41D5B70500033CDFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9C2ADE01D5B70500033CDFC /* SourceEditorExtension.swift in Sources */,
+				F9C2ADE21D5B70500033CDFC /* SourceEditorCommand.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F9C2ADE51D5B70500033CDFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F9C2ADD71D5B70500033CDFC /* Visual Studio Hotkeys */;
+			targetProxy = F9C2ADE41D5B70500033CDFC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F9C2ADCB1D5B6FEC0033CDFC /* Main.storyboard */ = {
@@ -245,6 +366,7 @@
 		F9C2ADD21D5B6FEC0033CDFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 7R7GVTFP58;
@@ -259,6 +381,7 @@
 		F9C2ADD31D5B6FEC0033CDFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 7R7GVTFP58;
@@ -266,6 +389,38 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.breath.VS-Key-Bindings-For-Xcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		F9C2ADE81D5B70500033CDFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Visual Studio Hotkeys/Visual_Studio_Hotkeys.entitlements";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7R7GVTFP58;
+				INFOPLIST_FILE = "Visual Studio Hotkeys/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.breath.VS-Key-Bindings-For-Xcode.Visual-Studio-Hotkeys";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F9C2ADE91D5B70500033CDFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Visual Studio Hotkeys/Visual_Studio_Hotkeys.entitlements";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7R7GVTFP58;
+				INFOPLIST_FILE = "Visual Studio Hotkeys/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.breath.VS-Key-Bindings-For-Xcode.Visual-Studio-Hotkeys";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -287,6 +442,14 @@
 			buildConfigurations = (
 				F9C2ADD21D5B6FEC0033CDFC /* Debug */,
 				F9C2ADD31D5B6FEC0033CDFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F9C2ADE71D5B70500033CDFC /* Build configuration list for PBXNativeTarget "Visual Studio Hotkeys" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9C2ADE81D5B70500033CDFC /* Debug */,
+				F9C2ADE91D5B70500033CDFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
