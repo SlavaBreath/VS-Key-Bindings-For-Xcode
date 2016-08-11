@@ -144,17 +144,30 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 				firstLine = lastLine
 			}
 			
-			let startIndex = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
+			var startIndex = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
+			let startLineIndex: String.Index? = firstLine.characters.index(where: { (c) -> Bool in
+				return c != "\t" && c != " " && c != "\n"
+			})
+			if let index = startLineIndex, index > startIndex {
+				startIndex = index
+			}
+			
 			if firstLine[startIndex] == "/" && firstLine[firstLine.index(after: startIndex)] == "*" {
 				firstLine.characters.removeSubrange(startIndex...firstLine.index(after: startIndex))
 			}
 			
-			invocation.buffer.lines[selection.start.line] = firstLine
-			if !sameLine {
+			if sameLine {
+				invocation.buffer.lines[selection.start.line] = firstLine
+				
+				(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 3
+			} else {
+				invocation.buffer.lines[selection.start.line] = firstLine
 				invocation.buffer.lines[selection.end.line] = lastLine
+				
+				(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 1
 			}
 			
-			(selection as! XCSourceTextRange).end.column -= sameLine ? 3 : 2
+			(selection as! XCSourceTextRange).start.column = firstLine.distance(from: firstLine.startIndex, to: startIndex)
 		}
 	}
 	
