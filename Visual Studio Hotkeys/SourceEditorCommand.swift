@@ -31,46 +31,6 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 			break
 		}
 		
-		
-		
-//		for selection in invocation.buffer.selections {
-//			var firstLine = invocation.buffer.lines[selection.start.line] as! String
-//			var lastLine = invocation.buffer.lines[selection.end.line] as! String
-//			let sameLine = firstLine == lastLine
-//			
-//			if command == .commentCommand {
-//				var index = lastLine.index(lastLine.startIndex, offsetBy: selection.end.column + 1)
-//				lastLine.insert(contentsOf: "*/".characters, at: index)
-//				
-//				if sameLine {
-//					firstLine = lastLine
-//				}
-//				index = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
-//				firstLine.insert(contentsOf: "/*".characters, at: index)
-//				
-//				invocation.buffer.lines[selection.start.line] = firstLine
-//				if !sameLine {
-//					invocation.buffer.lines[selection.end.line] = lastLine
-//				}
-//				
-//				(selection as! XCSourceTextRange).end.column += 5
-//			} else if command == .uncommentCommand {
-//				if sameLine {
-//					if selection.end.column - selection.start.column >= 4 {
-//						var index = firstLine.index(firstLine.startIndex, offsetBy: selection.end.column)
-//						firstLine.removeSubrange(firstLine.index(before: index)...index)
-//						
-//						index = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
-//						firstLine.removeSubrange(index...firstLine.index(after: index))
-//						
-//						invocation.buffer.lines[selection.start.line] = firstLine
-//					}
-//				}
-//				
-//				(selection as! XCSourceTextRange).end.column -= 3
-//			}
-//		}
-		
         completionHandler(nil)
     }
 	
@@ -94,13 +54,45 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 			return
 		}
 		
-//		for selection in invocation.buffer.selections {
-//			var firstLine = invocation.buffer.lines[selection.start.line] as! String
-//			var lastLine = invocation.buffer.lines[selection.end.line] as! String
-//			let sameLine = firstLine == lastLine
-//			
-//			
-//		}
+		for selection in invocation.buffer.selections {
+			var firstLine = invocation.buffer.lines[selection.start.line] as! String
+			var lastLine = invocation.buffer.lines[selection.end.line] as! String
+			let sameLine = firstLine == lastLine
+			
+			var lastIndex = lastLine.index(lastLine.startIndex, offsetBy: selection.end.column)
+			if lastLine[lastIndex] != "\n" {
+				lastIndex = lastLine.index(after: lastIndex)
+			}
+			lastLine.characters.insert(contentsOf: "*/".characters, at: lastIndex)
+			
+			if sameLine {
+				firstLine = lastLine
+			}
+			
+			var startIndex = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
+			let startLineIndex = firstLine.characters.index(where: { (c) -> Bool in
+				return c != "\t" && c != " " && c != "\n"
+			})
+			
+			if let index = startLineIndex, index > startIndex {
+				startIndex = index
+			}
+			
+			firstLine.characters.insert(contentsOf: "/*".characters, at: startIndex)
+			
+			if sameLine {
+				invocation.buffer.lines[selection.start.line] = firstLine
+				
+				(selection as! XCSourceTextRange).end.column = firstLine.distance(from: firstLine.startIndex, to: lastIndex) + 4
+			} else {
+				invocation.buffer.lines[selection.start.line] = firstLine
+				invocation.buffer.lines[selection.end.line] = lastLine
+				
+				(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: lastIndex) + 2
+			}
+			
+			(selection as! XCSourceTextRange).start.column = firstLine.distance(from: firstLine.startIndex, to: startIndex)
+		}
 	}
 	
 	private func uncommentCommand(for invocation: XCSourceEditorCommandInvocation) {
@@ -134,15 +126,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 			var firstLine = invocation.buffer.lines[selection.start.line] as! String
 			var lastLine = invocation.buffer.lines[selection.end.line] as! String
 			let sameLine = firstLine == lastLine
-			
-			let endIndex = lastLine.index(lastLine.startIndex, offsetBy: selection.end.column)
-			if lastLine[endIndex] == "/" && lastLine[lastLine.index(before: endIndex)] == "*" {
-				lastLine.characters.removeSubrange(lastLine.index(before: endIndex)...endIndex)
-			}
-			
-			if sameLine {
-				firstLine = lastLine
-			}
+			var firstChanged = false
+			var lastChanged = false
 			
 			var startIndex = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
 			let startLineIndex: String.Index? = firstLine.characters.index(where: { (c) -> Bool in
@@ -153,21 +138,34 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 			}
 			
 			if firstLine[startIndex] == "/" && firstLine[firstLine.index(after: startIndex)] == "*" {
+				firstChanged = true
+			}
+			
+			let endIndex = lastLine.index(lastLine.startIndex, offsetBy: selection.end.column)
+			if lastLine[endIndex] == "/" && lastLine[lastLine.index(before: endIndex)] == "*" {
+				lastChanged = true
+			}
+			
+			if firstChanged && lastChanged {
+				lastLine.characters.removeSubrange(lastLine.index(before: endIndex)...endIndex)
+				if sameLine {
+					firstLine = lastLine
+				}
 				firstLine.characters.removeSubrange(startIndex...firstLine.index(after: startIndex))
-			}
-			
-			if sameLine {
-				invocation.buffer.lines[selection.start.line] = firstLine
 				
-				(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 3
-			} else {
-				invocation.buffer.lines[selection.start.line] = firstLine
-				invocation.buffer.lines[selection.end.line] = lastLine
+				if sameLine {
+					invocation.buffer.lines[selection.start.line] = firstLine
+					
+					(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 3
+				} else {
+					invocation.buffer.lines[selection.start.line] = firstLine
+					invocation.buffer.lines[selection.end.line] = lastLine
+					
+					(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 1
+				}
 				
-				(selection as! XCSourceTextRange).end.column = lastLine.distance(from: lastLine.startIndex, to: endIndex) - 1
+				(selection as! XCSourceTextRange).start.column = firstLine.distance(from: firstLine.startIndex, to: startIndex)
 			}
-			
-			(selection as! XCSourceTextRange).start.column = firstLine.distance(from: firstLine.startIndex, to: startIndex)
 		}
 	}
 	
