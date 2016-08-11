@@ -34,28 +34,6 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 		
 		
 //		for selection in invocation.buffer.selections {
-//			
-//			// Case when nothing is selected
-//			if selection.start.line == selection.end.line, selection.start.column == selection.end.column {
-//				let line = selection.start.line
-//				
-//				if command == .commentCommand {
-//					let newLine = "//" + (invocation.buffer.lines[line] as! String)
-//					invocation.buffer.lines[line] = newLine
-//				} else if command == .uncommentCommand {
-//					var oldLine = invocation.buffer.lines[line] as! String
-//					if oldLine.hasPrefix("//") {
-//						oldLine.characters.removeFirst(2)
-//						invocation.buffer.lines[line] = oldLine
-//					} else if oldLine.hasPrefix("/*"), oldLine.hasSuffix("*/") {
-//						oldLine.characters.removeFirst(2)
-//						oldLine.characters.removeLast(2)
-//						invocation.buffer.lines[line] = oldLine
-//					}
-//				}
-//				break
-//			}
-//			
 //			var firstLine = invocation.buffer.lines[selection.start.line] as! String
 //			var lastLine = invocation.buffer.lines[selection.end.line] as! String
 //			let sameLine = firstLine == lastLine
@@ -101,40 +79,82 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 	private func commentCommand(for invocation: XCSourceEditorCommandInvocation) {
 		
 		// First check for not selected text
-		let selection = invocation.buffer.selections.firstObject as! XCSourceTextRange
-		if selection.start.line == selection.end.line, selection.start.column == selection.end.column {
-			var line = invocation.buffer.lines[selection.start.line] as! String
+		let singleSelection = invocation.buffer.selections.firstObject as! XCSourceTextRange
+		if singleSelection.start.line == singleSelection.end.line, singleSelection.start.column == singleSelection.end.column {
+			var line = invocation.buffer.lines[singleSelection.start.line] as! String
 			if let index = line.characters.index(where: { (c) -> Bool in
 				return c != "\t" && c != " " && c != "\n"
 			}) {
 				line.insert(contentsOf: "//".characters, at: index)
-				invocation.buffer.lines[selection.start.line] = line
+				
+				invocation.buffer.lines[singleSelection.start.line] = line
+				singleSelection.start.column = line.distance(from: line.startIndex, to: index)
+				singleSelection.end = singleSelection.start
 			}
 			return
 		}
+		
+//		for selection in invocation.buffer.selections {
+//			var firstLine = invocation.buffer.lines[selection.start.line] as! String
+//			var lastLine = invocation.buffer.lines[selection.end.line] as! String
+//			let sameLine = firstLine == lastLine
+//			
+//			
+//		}
 	}
 	
 	private func uncommentCommand(for invocation: XCSourceEditorCommandInvocation) {
 		// First check for not selected text
-		let selection = invocation.buffer.selections.firstObject as! XCSourceTextRange
-		if selection.start.line == selection.end.line, selection.start.column == selection.end.column {
-			var line = invocation.buffer.lines[selection.start.line] as! String
+		let singleSelection = invocation.buffer.selections.firstObject as! XCSourceTextRange
+		if singleSelection.start.line == singleSelection.end.line, singleSelection.start.column == singleSelection.end.column {
+			var line = invocation.buffer.lines[singleSelection.start.line] as! String
 			if let index = line.characters.index(of: "/") {
 				if index == line.startIndex, line.hasSuffix("//") {
 					line.characters.removeFirst(2)
 					
-					invocation.buffer.lines[selection.start.line] = line
+					invocation.buffer.lines[singleSelection.start.line] = line
+					singleSelection.start.column = 0
+					singleSelection.end = singleSelection.start
 				} else {
 					let preLine = line[line.index(before: index)]
 					let secondSlash = line[line.index(after: index)]
 					if (preLine == "\t" || preLine == " ") && secondSlash == "/" {
 						line.characters.removeSubrange(index...line.index(after: index))
 						
-						invocation.buffer.lines[selection.start.line] = line
+						invocation.buffer.lines[singleSelection.start.line] = line
+						singleSelection.start.column = line.distance(from: line.startIndex, to: index)
+						singleSelection.end = singleSelection.start
 					}
 				}
 			}
 			return
+		}
+		
+		for selection in invocation.buffer.selections {
+			var firstLine = invocation.buffer.lines[selection.start.line] as! String
+			var lastLine = invocation.buffer.lines[selection.end.line] as! String
+			let sameLine = firstLine == lastLine
+			
+			let endIndex = lastLine.index(lastLine.startIndex, offsetBy: selection.end.column)
+			if lastLine[endIndex] == "/" && lastLine[lastLine.index(before: endIndex)] == "*" {
+				lastLine.characters.removeSubrange(lastLine.index(before: endIndex)...endIndex)
+			}
+			
+			if sameLine {
+				firstLine = lastLine
+			}
+			
+			let startIndex = firstLine.index(firstLine.startIndex, offsetBy: selection.start.column)
+			if firstLine[startIndex] == "/" && firstLine[firstLine.index(after: startIndex)] == "*" {
+				firstLine.characters.removeSubrange(startIndex...firstLine.index(after: startIndex))
+			}
+			
+			invocation.buffer.lines[selection.start.line] = firstLine
+			if !sameLine {
+				invocation.buffer.lines[selection.end.line] = lastLine
+			}
+			
+			(selection as! XCSourceTextRange).end.column -= sameLine ? 3 : 2
 		}
 	}
 	
